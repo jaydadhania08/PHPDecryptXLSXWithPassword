@@ -5,7 +5,7 @@ Dependencies:
 - [OLE](https://github.com/pear/OLE/)
 - [PEAR](https://pear.php.net/package/PEAR/)
 
-I have made a small change in [`System.php`](lib/System.php) file of PEAR package - commented out `require_once 'Console/Getopt.php';` because this script does not need it, so we can avoid downloading [Console_Getopt](https://github.com/pear/Console_Getopt/) package.
+I have made a small change in [`System.php`](lib/System.php#L20) file of PEAR package - commented out `require_once 'Console/Getopt.php';` because this script does not need it, so we can avoid downloading [Console_Getopt](https://github.com/pear/Console_Getopt/) package.
 
 # Usage:
 
