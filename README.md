@@ -21,6 +21,10 @@ $decryptedFilePath = '../path/to/decrypted/file.xlsx';
 decrypt($encryptedFilePath, $password, $decryptedFilePath);
 ```
 
+# Acknowledgement
+- This repo is made possible by Python's [msoffcrypto-tool](https://pypi.org/project/msoffcrypto-tool/), which is used for decrypting various files with a known password.
+- I have also used encryption/decryption logic from Python's [cryptography](https://cryptography.io/en/latest/hazmat/primitives/) module, which is also used in the `msoffcrypto-tool`.
+
 # Caution!
 
 This will work if the input file is encrypted, and the password is correct. However, I have developed this just for a quick dirty task and there is no error checking whatsoever. **Please DO NOT use in production.**
