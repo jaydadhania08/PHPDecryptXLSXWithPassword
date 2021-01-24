@@ -1,7 +1,9 @@
 # PHPDecryptXLSXWithPassword
-Decrypt encrypted (for which password is already known) XLSX files with PHP.
+Decrypt encrypted (for which password is already known) XLSX / DOCX / PPTX files with PHP.
 
-**Update:** It also works for DOCX and PPTX files. I have not tested for XLS/DOC/PPT files yet.
+**Update:** It also works for DOCX and PPTX files (can someone suggest a better name for this repo?).
+
+I have not tested for XLS/DOC/PPT files yet.
 
 Dependencies:
 - [OLE](https://github.com/pear/OLE/)
@@ -17,7 +19,7 @@ I have made a small change in [`System.php`](lib/System.php#L20) file of PEAR pa
 require_once('PHPDecryptXLSXWithPassword.php');
 
 $encryptedFilePath = '../path/to/encrypted/file.xlsx';
-$password = 'mypassword'; // password to "open" the XLSX file
+$password = 'mypassword'; // password to "open" the file
 $decryptedFilePath = '../path/to/decrypted/file.xlsx';
 
 decrypt($encryptedFilePath, $password, $decryptedFilePath);
