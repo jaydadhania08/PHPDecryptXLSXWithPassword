@@ -104,5 +104,3 @@ function decrypt($encryptedFilePath, $password, $decryptedFilePath)
 	// write to file
 	file_put_contents($decryptedFilePath, $decrypted);
 }
-
-start('Sheet.xlsx', 'qqqqqq', 'Sheet__.xlsx');
