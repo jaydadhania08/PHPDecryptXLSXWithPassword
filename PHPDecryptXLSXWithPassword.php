@@ -11,7 +11,7 @@ function getDataByName($oleObj, $name)
 		return $name === $obj -> Name;
 	});
 
-	if(0 === count($objArray) > 0)
+	if(0 === count($objArray))
 	{
 		return false;
 	}
