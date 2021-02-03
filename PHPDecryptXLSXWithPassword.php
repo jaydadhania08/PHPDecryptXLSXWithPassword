@@ -1,7 +1,7 @@
 <?php
 
 // add lib folder to include path -- required by some files in OLE package
-ini_set('include_path', ini_get('include_path') . ';lib');
+ini_set('include_path', ini_get('include_path') . PATH_SEPARATOR . './lib' . PATH_SEPARATOR . './include/lib');
 
 require_once('OLE.php');
 
@@ -44,20 +44,22 @@ function decrypt($encryptedFilePath, $password, $decryptedFilePath)
 
 	// get key
 	{
-		$h = hash('SHA512', $info['passwordSalt'] . iconv('UTF-8', 'UTF-16LE', $password), true);
+		$h = hash($info['passwordHashAlgorithm'], $info['passwordSalt'] . iconv('UTF-8', 'UTF-16LE', $password), true);
 
 		for($i = 0; $i < $info['spinValue']; $i++)
 		{
-			$h = hash('SHA512', pack('I', $i) . $h, true);
+			$h = hash($info['passwordHashAlgorithm'], pack('I', $i) . $h, true);
 		}
 
 		$blockKey = hex2bin('146e0be7abacd0d6');
 
-		$h_final = hash('SHA512', $h . $blockKey, true);
+		$h_final = hash($info['passwordHashAlgorithm'], $h . $blockKey, true);
 
 		$encryptionKey = substr($h_final, 0, intval($info['passwordKeyBits'] / 8));
 
-		$key = openssl_decrypt($info['encryptedKeyValue'], 'aes-256-cbc', $encryptionKey, OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING, $info['passwordSalt']);
+		$mode = 'SHA512' === $info['passwordHashAlgorithm'] ? 'aes-256-cbc' : 'aes-128-cbc';
+
+		$key = openssl_decrypt($info['encryptedKeyValue'], $mode, $encryptionKey, OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING, $info['passwordSalt']);
 	}
 
 	// decrypt data
@@ -84,11 +86,13 @@ function decrypt($encryptedFilePath, $password, $decryptedFilePath)
 
 			$saltWithBlockKey = $info['keyDataSalt'] . pack('I', $i);
 
-			$iv = hash('SHA512', $saltWithBlockKey, true);
+			$iv = hash($info['passwordHashAlgorithm'], $saltWithBlockKey, true);
 
 			$iv = substr($iv, 0, 16);
 
-			$decryptedChunk = openssl_decrypt($payloadChunk, 'aes-256-cbc', $key, OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING, $iv);
+			$mode = 'SHA512' === $info['passwordHashAlgorithm'] ? 'aes-256-cbc' : 'aes-128-cbc';
+
+			$decryptedChunk = openssl_decrypt($payloadChunk, $mode, $key, OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING, $iv);
 
 			$decrypted .= $decryptedChunk;
 
